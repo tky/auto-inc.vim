@@ -66,4 +66,18 @@ describe 'autoinc' do
       work02,name002,type0100
     EOF
   end
+
+  it 'increment based on previous data' do
+    before <<-EOF
+      work01
+      work03
+    EOF
+    vim.normal('G')
+    vim.command(':AutoIncrement')
+    after <<-EOF
+      work01
+      work03
+      work05
+    EOF
+  end
 end
