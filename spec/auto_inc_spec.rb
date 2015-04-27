@@ -56,4 +56,14 @@ describe 'autoinc' do
     EOF
   end
 
+  it 'comma separeted formatted value' do
+    before <<-EOF
+      work01,name001,type0099
+    EOF
+    vim.command(':AutoIncrement')
+    after <<-EOF
+      work01,name001,type0099
+      work02,name002,type0100
+    EOF
+  end
 end

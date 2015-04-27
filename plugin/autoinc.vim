@@ -25,7 +25,12 @@ module AutoInc
     end
 
     def increment(src)
-      return src.to_i + 1
+      inc = (src.to_i + 1).to_s
+      if src.start_with?("0")
+        return inc.rjust(src.length, "0")
+      else
+        return inc
+      end
     end
 
     def execute
