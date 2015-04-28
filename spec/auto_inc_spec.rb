@@ -38,7 +38,7 @@ describe 'autoinc' do
     before <<-EOF
       work1
     EOF
-    vim.command(':AutoIncrement')
+    vim.command(':GenerateIncrement')
     after <<-EOF
       work1
       work2
@@ -49,7 +49,7 @@ describe 'autoinc' do
     before <<-EOF
       work1,name1
     EOF
-    vim.command(':AutoIncrement')
+    vim.command(':GenerateIncrement')
     after <<-EOF
       work1,name1
       work2,name2
@@ -60,7 +60,7 @@ describe 'autoinc' do
     before <<-EOF
       work01,name001,type0099
     EOF
-    vim.command(':AutoIncrement')
+    vim.command(':GenerateIncrement')
     after <<-EOF
       work01,name001,type0099
       work02,name002,type0100
@@ -73,7 +73,7 @@ describe 'autoinc' do
       work03
     EOF
     vim.normal('G')
-    vim.command(':AutoIncrement')
+    vim.command(':GenerateIncrement')
     after <<-EOF
       work01
       work03
@@ -87,7 +87,7 @@ describe 'autoinc' do
       work03,name010,loc0090
     EOF
     vim.normal('G')
-    vim.command(':AutoIncrement')
+    vim.command(':GenerateIncrement')
     after <<-EOF
       work01,name005,loc0080
       work03,name010,loc0090

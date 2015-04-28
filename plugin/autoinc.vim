@@ -65,10 +65,10 @@ end
 $autoinc = AutoInc::Main.new
 RUBY
 
-func! AutoIncrement()
+func! GenerateIncrement()
 ruby << RUBY
   $autoinc.execute()
 RUBY
 endfunc
 
-command! AutoIncrement :call AutoIncrement()
+command! GenerateIncrement :call GenerateIncrement()
