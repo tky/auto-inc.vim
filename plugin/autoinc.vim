@@ -48,7 +48,7 @@ module AutoInc
       return diffs
     end
 
-    def execute
+    def generate_increment
       pos = get_pos
       line = get_line(pos)
       divided = line.split(/([[:digit:]]+)/)
@@ -58,7 +58,12 @@ module AutoInc
         echom(diff)
         is_numeric?(v) ? increment(v, diff) : v
       end
-      set_line(pos, translated.join)
+      return translated.join
+    end
+
+    def execute_generate_increment
+      pos = get_pos
+      set_line(pos, generate_increment())
     end
   end
 end
@@ -67,7 +72,7 @@ RUBY
 
 func! GenerateIncrement()
 ruby << RUBY
-  $autoinc.execute()
+  $autoinc.execute_generate_increment()
 RUBY
 endfunc
 
