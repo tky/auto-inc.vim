@@ -17,6 +17,10 @@ module AutoInc
     end
 
     def set_line(col, message)
+      VIM.evaluate("setline(#{col}, '#{message}')")
+    end
+
+    def append_line(col, message)
       VIM.evaluate("append(#{col}, '#{message}')")
     end
 
@@ -55,13 +59,17 @@ module AutoInc
       diffs = diff_line(line, get_line(pos - 1))
       translated = divided.map.with_index do |v, i|
         diff = diffs[i]
-        echom(diff)
         is_numeric?(v) ? increment(v, diff) : v
       end
       return translated.join
     end
 
     def execute_generate_increment
+      pos = get_pos
+      append_line(pos, generate_increment())
+    end
+
+    def execute_update
       pos = get_pos
       set_line(pos, generate_increment())
     end
@@ -76,4 +84,11 @@ ruby << RUBY
 RUBY
 endfunc
 
+func! UpdateToIncrement()
+ruby << RUBY
+  $autoinc.execute_update()
+RUBY
+endfunc
+
 command! GenerateIncrement :call GenerateIncrement()
+command! UpdateToIncrement :call UpdateToIncrement()

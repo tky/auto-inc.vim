@@ -94,4 +94,17 @@ describe 'autoinc' do
       work05,name015,loc0100
     EOF
   end
+
+  it 'update based on previous data with multi number' do
+    before <<-EOF
+      work01,name005,loc0080
+      work03,name010,loc0090
+    EOF
+    vim.normal('G')
+    vim.command(':UpdateToIncrement')
+    after <<-EOF
+      work01,name005,loc0080
+      work05,name015,loc0100
+    EOF
+  end
 end
