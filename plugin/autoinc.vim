@@ -78,17 +78,17 @@ end
 $autoinc = AutoInc::Main.new
 RUBY
 
-func! GenerateIncrement()
+func! g:autoinc#generate_increment()
 ruby << RUBY
   $autoinc.execute_generate_increment()
 RUBY
 endfunc
 
-func! UpdateToIncrement()
+func! g:autoinc#update_to_increment()
 ruby << RUBY
   $autoinc.execute_update()
 RUBY
 endfunc
 
-command! GenerateIncrement :call GenerateIncrement()
-command! UpdateToIncrement :call UpdateToIncrement()
+command! GenerateIncrement :call g:autoinc#generate_increment()
+command! UpdateToIncrement :call g:autoinc#update_to_increment()
