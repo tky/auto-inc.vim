@@ -107,4 +107,54 @@ describe 'autoinc' do
       work05,name015,loc0100
     EOF
   end
+
+  it 'update week' do
+    before <<-EOF
+      it is Monday.
+    EOF
+    vim.command(':UpdateToIncrement')
+    after <<-EOF
+      it is Tuesday.
+    EOF
+  end
+
+  it 'update all weeks' do
+    before <<-EOF
+      monday tuesday mednesday thursday friday saturday sunday
+    EOF
+
+    vim.command(':UpdateToIncrement')
+
+    after <<-EOF
+      tuesday mednesday thursday friday saturday sunday monday
+    EOF
+  end
+
+  it 'update all abbr weeks' do
+    before <<-EOF
+      mon tue wed thurs fri sat sun
+    EOF
+
+    vim.command(':UpdateToIncrement')
+
+    after <<-EOF
+      tue wed thurs fri sat sun mon
+    EOF
+  end
+
+  it 'generate next calendar' do
+    before <<-EOF
+      4/1 mon
+      4/2 tue
+    EOF
+
+    vim.normal('G')
+    vim.command(':GenerateIncrement')
+
+    after <<-EOF
+      4/1 mon
+      4/2 tue
+      4/3 wed
+    EOF
+  end
 end
