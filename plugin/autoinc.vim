@@ -4,8 +4,16 @@ require 'ripper'
 
 module AutoInc
   class Main
-    @@weeks = ['monday' , 'tuesday' , 'mednesday' , 'thursday' , 'friday' , 'saturday' , 'sunday']
+    @@weeks = ['monday' , 'tuesday' , 'wednesday' , 'thursday' , 'friday' , 'saturday' , 'sunday']
     @@abbr_weeks = ['mon', 'tue', 'wed', 'thurs', 'fri', 'sat', 'sun']
+
+    def week?(value)
+      @@weeks.include?(value.to_s.downcase) || @@abbr_weeks.include?(value.to_s.downcase)
+    end
+
+    def week_pos(value)
+      @@weeks.index(value.downcase) || @@abbr_weeks.index(value.downcase)
+    end
 
     def echom(message)
       VIM.command("echom '#{message}'")
@@ -57,15 +65,18 @@ module AutoInc
       end
     end
 
-    def increment_string(src, diff)
-      week = increment_week(src, diff)
-      return adjust_case(week, src) if !week.nil?
-      return src
+    def increment_string(current, prev)
+      if week?(current)
+        diff = week?(prev) ? week_pos(current) - week_pos(prev) : 1
+        week = increment_week(current, diff)
+        return adjust_case(week, current) if !week.nil?
+      else
+        return current
+      end
     end
 
     def adjust_case(value, origin)
       adjusted = value.split("").zip(origin.split("")).map do |vs|
-      echom(vs)
         v = vs[0]
         o = vs[1]
         if !o.nil? && o == o.upcase then
@@ -93,7 +104,7 @@ module AutoInc
           current = vs[0]
           prev = vs[1]
           d = diff_element(current, prev)
-          is_numeric?(current) ? increment_number(current, d) : increment_string(current, d)
+          is_numeric?(current) ? increment_number(current, d) : increment_string(current, prev)
         end
         return translated.join
       end

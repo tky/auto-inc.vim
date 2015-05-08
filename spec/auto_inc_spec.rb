@@ -120,13 +120,13 @@ describe 'autoinc' do
 
   it 'update all weeks' do
     before <<-EOF
-      monday tuesday mednesday thursday friday saturday sunday
+      monday tuesday wednesday thursday friday saturday sunday
     EOF
 
     vim.command(':UpdateToIncrement')
 
     after <<-EOF
-      tuesday mednesday thursday friday saturday sunday monday
+      tuesday wednesday thursday friday saturday sunday monday
     EOF
   end
 
@@ -156,5 +156,22 @@ describe 'autoinc' do
       4/2 tue
       4/3 wed
     EOF
+  end
+
+  it 'generate next calendar skip 1 day' do
+    before <<-EOF
+      4/1 mon
+      4/3 wed
+    EOF
+
+    vim.normal('G')
+    vim.command(':GenerateIncrement')
+
+    after <<-EOF
+      4/1 mon
+      4/3 wed
+      4/5 fri
+    EOF
+
   end
 end
