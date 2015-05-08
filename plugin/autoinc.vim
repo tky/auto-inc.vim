@@ -20,11 +20,11 @@ module AutoInc
     end
 
     def get_pos
-      return VIM.evaluate('getpos(".")[1]')
+      VIM.evaluate('getpos(".")[1]')
     end
 
     def get_line(col)
-      return VIM.evaluate("getline('#{col}')")
+      VIM.evaluate("getline('#{col}')")
     end
 
     def set_line(col, message)
@@ -35,7 +35,7 @@ module AutoInc
       VIM.evaluate("append(#{col}, '#{message}')")
     end
 
-    def is_numeric?(str)
+    def numeric?(str)
       !str.nil? && !str.match(/^[[:digit:]]+$/).nil?
     end
 
@@ -51,17 +51,17 @@ module AutoInc
     def increment_number(src, diff)
       inc = (src.to_i + diff).to_s
       if src.start_with?("0")
-        return inc.rjust(src.length, "0")
+        inc.rjust(src.length, "0")
       else
-        return inc
+        inc
       end
     end
 
     def diff_element(c, p)
-      if is_numeric?(c) && is_numeric?(p)
-        return c.to_i - p.to_i
+      if numeric?(c) && numeric?(p)
+        c.to_i - p.to_i
       else
-        return 1
+        1
       end
     end
 
@@ -85,7 +85,7 @@ module AutoInc
           v
         end
       end
-      return adjusted.join
+      adjusted.join
     end
 
     def generate_increment(pos)
@@ -96,17 +96,17 @@ module AutoInc
 
       if current_divided.length != prev_divided.length then
         translated = current_divided.map do |v|
-          is_numeric?(v) ? increment_number(v, 1) : increment_string(v, 1)
+          numeric?(v) ? increment_number(v, 1) : increment_string(v, 1)
         end
-        return translated.join
+        translated.join
       else
         translated = current_divided.zip(prev_divided).map do |vs|
           current = vs[0]
           prev = vs[1]
           d = diff_element(current, prev)
-          is_numeric?(current) ? increment_number(current, d) : increment_string(current, prev)
+          numeric?(current) ? increment_number(current, d) : increment_string(current, prev)
         end
-        return translated.join
+        translated.join
       end
     end
 
